@@ -1,4 +1,4 @@
-const puzzleInformation = {
+/*const puzzleInformation = {
   name: "NinjaSe 4x5",
   board: {
     rows: "5",
@@ -116,4 +116,27 @@ const puzzleInformation = {
   ],
 };
 
-export { puzzleInformation };
+export { puzzleInformation };*/
+export const level1 = {
+  rows: 5,
+  columns: 4,
+  ninjase: { row: 2, column: 0 },
+  walls: [
+    { row: 0, column: 3 },
+    { row: 1, column: 1 },
+    { row: 1, column: 2 },
+    { row: 1, column: 3 },
+    { row: 3, column: 0 },
+    { row: 3, column: 1 },
+    { row: 3, column: 3 },
+    { row: 4, column: 3 },
+  ],
+  doors: [
+    { color: "green", row: 2, column: 3 },
+    { color: "red", row: 4, column: 1 },
+  ],
+  keys: [
+    { color: "green", row: 4, column: 0 },
+    { color: "red", row: 0, column: 2 },
+  ],
+};
