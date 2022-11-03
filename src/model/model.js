@@ -56,9 +56,17 @@ export class Wall {
 }
 
 export class Room {
-  constructor(numRows, numColumns) {
+  constructor(info) {
+    this.initialize(info);
+  }
+
+  initialize(info) {
+    let numRows = parseInt(info.rows);
+    let numColumns = parseInt(info.columns);
+
     this.numRows = numRows;
     this.numColumns = numColumns;
+    this.ninjase = new NinjaSe(info);
     this.isSolved = false;
   }
 }
@@ -69,8 +77,8 @@ export class NinjaSe {
   }
 
   initialize(info) {
-    let row = parseInt(info.row);
-    let column = parseInt(info.column);
+    let row = parseInt(info.ninjase.row);
+    let column = parseInt(info.ninjase.column);
 
     this.row = row;
     this.column = column;
@@ -86,7 +94,7 @@ export default class Model {
     let numRows = parseInt(info.row);
     let numColumns = parseInt(info.column);
 
-    this.puzzle = new Room(numRows, numColumns);
+    this.room = new Room(info);
     this.numMoves = 0;
     this.victory = false;
   }
