@@ -1,8 +1,12 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import Model from "./model/Model.js";
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+import { puzzleInformation } from "./model/Puzzle.js";
+
+var actualPuzzle = JSON.parse(JSON.stringify(puzzleInformation));
+var model = new Model(actualPuzzle);
+
+test("No moves when model created", () => {
+  expect(model.numMoves).toBe(0);
 });

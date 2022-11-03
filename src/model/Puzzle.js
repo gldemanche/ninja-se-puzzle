@@ -1,4 +1,4 @@
-export const puzzleInformation = {
+const puzzleInformation = {
   name: "NinjaSe 4x5",
   board: {
     rows: "5",
@@ -115,3 +115,5 @@ export const puzzleInformation = {
     },
   ],
 };
+
+export { puzzleInformation };
