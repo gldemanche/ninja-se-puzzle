@@ -25,18 +25,18 @@ export class Puzzle {
   }
 
   initialize(level) {
-    let numRows = level.row;
-    let numColumns = level.column;
+    let nr = level.row;
+    let nc = level.column;
 
-    this.numRows = numRows;
-    this.numColumns = numColumns;
+    this.nr = nr;
+    this.nc = nc;
     this.ninjase = new NinjaSe(level);
     this.isSolved = false;
 
     this.cells = [];
-    for (let r = 0; r < numRows; r++) {
+    for (let r = 0; r < nr; r++) {
       this.cells[r] = [];
-      for (let c = 0; c < numColumns; c++) {
+      for (let c = 0; c < nc; c++) {
         this.cells[r][c] = new Cell(r, c);
       }
     }
@@ -51,7 +51,7 @@ export class Model {
 
   initialize(level) {
     this.level = level;
-    this.room = new Puzzle(level);
+    this.puzzle = new Puzzle(level);
     this.numMoves = 0;
     this.victory = false;
   }
