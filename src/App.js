@@ -2,17 +2,29 @@ import React from "react";
 import { level1 } from "./model/Levels.js";
 import { redrawCanvas } from "./boundary/Boundary.js";
 import { Model } from "./model/Model.js";
-
+import { layout } from "./Layout.js";
 // you might try this quick and dirty way to position buttons where you want (and other elements)
 const upbutton = {
   position: "absolute",
-  left: 500,
+  left: 520,
   top: 80,
 };
 
 const leftbutton = {
   position: "absolute",
   left: 470,
+  top: 120,
+};
+
+const downbutton = {
+  position: "absolute",
+  left: 520,
+  top: 160,
+};
+
+const rightbutton = {
+  position: "absolute",
+  left: 570,
   top: 120,
 };
 
@@ -27,7 +39,7 @@ function App() {
   }, [model, redraw]); // arguments that determine when to refresh
 
   return (
-    <main>
+    <main style={layout.Appmain}>
       <canvas
         tabIndex="1"
         className="App-canvas"
@@ -36,8 +48,11 @@ function App() {
         height="800"
       />
 
-      <button style={upbutton}>^</button>
-      <button style={leftbutton}>&lt;</button>
+      <label style={layout.text}>{"number moves: " + model.numMoves}</label>
+      <button style={upbutton}>UP </button>
+      <button style={leftbutton}>LEFT</button>
+      <button style={downbutton}>DOWN</button>
+      <button style={rightbutton}>RIGTH</button>
     </main>
   );
 }
