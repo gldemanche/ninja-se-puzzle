@@ -6,13 +6,13 @@ import { Model } from "./model/Model.js";
 // you might try this quick and dirty way to position buttons where you want (and other elements)
 const upbutton = {
   position: "absolute",
-  left: 330,
+  left: 500,
   top: 80,
 };
 
 const leftbutton = {
   position: "absolute",
-  left: 300,
+  left: 470,
   top: 120,
 };
 

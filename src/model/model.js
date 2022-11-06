@@ -7,36 +7,29 @@ export class Cell {
 }
 
 export class NinjaSe {
-  constructor(level) {
-    this.initialize(level);
+  constructor(row, column) {
+    this.initialize(row, column);
   }
 
-  initialize(level) {
-    let row = level.ninjase.row;
-    let column = level.ninjase.column;
-
+  initialize(row, column) {
     this.row = row;
     this.column = column;
   }
 }
+
 export class Puzzle {
-  constructor(level) {
-    this.initialize(level);
+  constructor(nr, nc) {
+    this.initialize(nr, nc);
   }
 
-  initialize(level) {
-    let nr = level.row;
-    let nc = level.column;
-
+  initialize(nr, nc) {
     this.nr = nr;
     this.nc = nc;
-    this.ninjase = new NinjaSe(level);
-    this.isSolved = false;
 
     this.cells = [];
     for (let r = 0; r < nr; r++) {
       this.cells[r] = [];
-      for (let c = 0; c < nc; c++) {
+      for (let c = 0; c < 5; c++) {
         this.cells[r][c] = new Cell(r, c);
       }
     }
@@ -51,7 +44,14 @@ export class Model {
 
   initialize(level) {
     this.level = level;
-    this.puzzle = new Puzzle(level);
+
+    let nr = level.rows;
+    let nc = level.columns;
+    let row = level.ninjase.row;
+    let column = level.ninjase.column;
+
+    this.puzzle = new Puzzle(nr, nc);
+    this.ninjase = new NinjaSe(row, column);
     this.numMoves = 0;
     this.victory = false;
   }
