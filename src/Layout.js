@@ -12,8 +12,8 @@ export const layout = {
 
   text: {
     position: "absolute",
-    left: 500,
-    top: 50,
+    left: 570,
+    top: 200,
     color: "white",
     fontFamily: "helvetica",
     backgroundColor: "#52B2BF",

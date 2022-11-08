@@ -6,6 +6,17 @@ export class Cell {
   }
 }
 
+export class Wall {
+  constructor(row, column) {
+    this.row = row;
+    this.column = column;
+  }
+
+  copy() {
+    let p = new Wall(this.row, this.column);
+    return p;
+  }
+}
 export class NinjaSe {
   constructor(row, column) {
     this.initialize(row, column);
@@ -18,13 +29,10 @@ export class NinjaSe {
 }
 
 export class Puzzle {
-  constructor(nr, nc) {
-    this.initialize(nr, nc);
-  }
-
-  initialize(nr, nc) {
+  constructor(nr, nc, level) {
     this.nr = nr;
     this.nc = nc;
+    this.level = level;
 
     this.cells = [];
     for (let r = 0; r < nr; r++) {
@@ -34,6 +42,17 @@ export class Puzzle {
       }
     }
   }
+
+  initialize(walls) {
+    this.walls = walls;
+  }
+
+  /*
+  *blocks() {
+    for (let i = 0; i < this.walls.length; i++) {
+      yield this.walls[i];
+    }
+  } */
 }
 
 // Model knows the level (you need 3). Knows the Puzzle
@@ -50,10 +69,17 @@ export class Model {
     let row = level.ninjase.row;
     let column = level.ninjase.column;
 
-    this.puzzle = new Puzzle(nr, nc);
+    var allWalls = [];
+    for (let w of level.walls) {
+      allWalls.push(new Wall(parseInt(w.row), parseInt(w.column)));
+    }
+
+    this.puzzle = new Puzzle(nr, nc, level);
+    this.puzzle.initialize(allWalls);
     this.ninjase = new NinjaSe(row, column);
     this.numMoves = 0;
     this.victory = false;
+    this.showLabels = false;
   }
 }
 

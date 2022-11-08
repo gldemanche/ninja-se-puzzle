@@ -1,31 +1,49 @@
 import React from "react";
 import { level1 } from "./model/Levels.js";
+import { level2 } from "./model/Levels.js";
+import { level3 } from "./model/Levels.js";
 import { redrawCanvas } from "./boundary/Boundary.js";
 import { Model } from "./model/Model.js";
 import { layout } from "./Layout.js";
 // you might try this quick and dirty way to position buttons where you want (and other elements)
 const upbutton = {
   position: "absolute",
-  left: 520,
-  top: 80,
+  left: 600,
+  top: 230,
+  width: 60,
 };
 
 const leftbutton = {
   position: "absolute",
-  left: 470,
-  top: 120,
+  left: 540,
+  top: 270,
 };
 
 const downbutton = {
   position: "absolute",
-  left: 520,
-  top: 160,
+  left: 600,
+  top: 310,
 };
 
 const rightbutton = {
   position: "absolute",
-  left: 570,
-  top: 120,
+  left: 670,
+  top: 270,
+};
+
+const resetbutton = {
+  position: "absolute",
+  left: 420,
+  top: 375,
+  backgroundColor: "#000000",
+  color: "white",
+};
+
+const pickupbutton = {
+  position: "absolute",
+  top: 375,
+  left: 540,
+  width: 180,
 };
 
 function App() {
@@ -53,6 +71,8 @@ function App() {
       <button style={leftbutton}>LEFT</button>
       <button style={downbutton}>DOWN</button>
       <button style={rightbutton}>RIGTH</button>
+      <button style={resetbutton}>RESET</button>
+      <button style={pickupbutton}>PICK UP KEY</button>
     </main>
   );
 }
