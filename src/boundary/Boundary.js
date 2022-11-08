@@ -21,6 +21,7 @@ export function computeSquare(cell) {
     BOXSIZE - 2 * OFFSET
   );
 }
+
 export function drawWalls(ctx, puzzle, showlabels) {
   ctx.shadowColor = "black";
 
@@ -34,7 +35,6 @@ export function drawDoors(ctx, puzzle, showlabels) {
   ctx.shadowColor = "black";
 
   puzzle.doors.forEach((door) => {
-    let sq = computeSquare(door);
     let color = door.getColor();
     if (color === "red") {
       ctx.fillStyle = "#ff0000";
@@ -45,7 +45,37 @@ export function drawDoors(ctx, puzzle, showlabels) {
     } else {
       ctx.fillStyle = "#ffff00";
     }
-    ctx.fillRect(sq.x, sq.y, sq.size, sq.size);
+    //ctx.fillRect(sq.x, sq.y, sq.size, sq.size);
+    let bigSquare = new Square(
+      BOXSIZE * door.column + OFFSET,
+      BOXSIZE * door.row + OFFSET,
+      BOXSIZE - 2 * OFFSET,
+      BOXSIZE - 2 * OFFSET
+    );
+    let littleSquare = new Square(
+      BOXSIZE * door.column + 20,
+      BOXSIZE * door.row + 20,
+      BOXSIZE - 2 * 20,
+      BOXSIZE - 2 * 20
+    );
+    let tinySquare = new Square(
+      BOXSIZE * door.column + 40,
+      BOXSIZE * door.row + 40,
+      BOXSIZE - 2 * 40,
+      BOXSIZE - 2 * 40
+    );
+
+    ctx.fillStyle = "black";
+    ctx.fillRect(bigSquare.x, bigSquare.y, bigSquare.size, bigSquare.size);
+    ctx.fillStyle = door.color;
+    ctx.fillRect(
+      littleSquare.x,
+      littleSquare.y,
+      littleSquare.size,
+      littleSquare.size
+    );
+    ctx.fillStyle = "white";
+    ctx.fillRect(tinySquare.x, tinySquare.y, tinySquare.size, tinySquare.size);
   });
 }
 
