@@ -44,8 +44,8 @@ function App() {
         tabIndex="1"
         className="App-canvas"
         ref={canvasRef}
-        width="800"
-        height="800"
+        width={layout.canvas.width}
+        height={layout.canvas.height}
       />
 
       <label style={layout.text}>{"number moves: " + model.numMoves}</label>

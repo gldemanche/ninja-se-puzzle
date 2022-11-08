@@ -25,6 +25,9 @@ export function computeSquare(cell) {
 /** Redraw entire canvas from model. */
 export function redrawCanvas(model, canvasObj) {
   const ctx = canvasObj.getContext("2d");
+  if (ctx === null) {
+    return;
+  }
   ctx.clearRect(0, 0, canvasObj.width, canvasObj.height);
 
   // showing the outermost information
