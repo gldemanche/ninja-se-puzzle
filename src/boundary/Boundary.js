@@ -30,6 +30,24 @@ export function drawWalls(ctx, puzzle, showlabels) {
     ctx.fillRect(sq.x, sq.y, sq.size, sq.size);
   });
 }
+export function drawDoors(ctx, puzzle, showlabels) {
+  ctx.shadowColor = "black";
+
+  puzzle.doors.forEach((door) => {
+    let sq = computeSquare(door);
+    let color = door.getColor();
+    if (color === "red") {
+      ctx.fillStyle = "#ff0000";
+    } else if (color === "blue") {
+      ctx.fillStyle = "#0000ff";
+    } else if (color === "green") {
+      ctx.fillStyle = "#00ff00";
+    } else {
+      ctx.fillStyle = "#ffff00";
+    }
+    ctx.fillRect(sq.x, sq.y, sq.size, sq.size);
+  });
+}
 
 /** Redraw entire canvas from model. */
 export function redrawCanvas(model, canvasObj) {
@@ -58,5 +76,6 @@ export function redrawCanvas(model, canvasObj) {
   }
   if (model.puzzle) {
     drawWalls(ctx, model.puzzle, model.showlabels);
+    drawDoors(ctx, model.puzzle, model.showlabels);
   }
 }

@@ -11,10 +11,17 @@ export class Wall {
     this.row = row;
     this.column = column;
   }
+}
 
-  copy() {
-    let p = new Wall(this.row, this.column);
-    return p;
+export class Door {
+  constructor(row, column, color) {
+    this.row = row;
+    this.column = column;
+    this.color = color;
+  }
+
+  getColor() {
+    return this.color;
   }
 }
 export class NinjaSe {
@@ -43,8 +50,9 @@ export class Puzzle {
     }
   }
 
-  initialize(walls) {
+  initialize(walls, doors) {
     this.walls = walls;
+    this.doors = doors;
   }
 
   /*
@@ -73,9 +81,13 @@ export class Model {
     for (let w of level.walls) {
       allWalls.push(new Wall(parseInt(w.row), parseInt(w.column)));
     }
+    var allDoors = [];
+    for (let d of level.doors) {
+      allDoors.push(new Door(parseInt(d.row), parseInt(d.column), d.color));
+    }
 
     this.puzzle = new Puzzle(nr, nc, level);
-    this.puzzle.initialize(allWalls);
+    this.puzzle.initialize(allWalls, allDoors);
     this.ninjase = new NinjaSe(row, column);
     this.numMoves = 0;
     this.victory = false;
