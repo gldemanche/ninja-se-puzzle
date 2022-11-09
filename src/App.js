@@ -64,13 +64,13 @@ const level2button = {
 const level3button = {
   position: "absolute",
 
-  top: 70,
+  top: 70, 
   left: 450,
   width: 120,
 };
 
 function App() {
-  const [model, setModel] = React.useState(new Model(level3));
+  const [model, setModel] = React.useState(new Model(level1));
   const [redraw, forceRedraw] = React.useState(0); // used to conveniently request redraw after model change
   const canvasRef = React.useRef(null); // need to be able to refer to Canvas
 
@@ -79,6 +79,10 @@ function App() {
     redrawCanvas(model, canvasRef.current);
   }, [model, redraw]); // arguments that determine when to refresh
 
+  const handleClick = (e) => {
+    let newModel = ();
+    setModel(newModel);
+  }
   return (
     <main style={layout.Appmain}>
       <canvas
@@ -87,6 +91,7 @@ function App() {
         ref={canvasRef}
         width={layout.canvas.width}
         height={layout.canvas.height}
+        onClick={handleClick}
       />
 
       <label style={layout.text}>{"number moves: " + model.numMoves}</label>
