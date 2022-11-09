@@ -6,6 +6,14 @@ export class Cell {
   }
 }
 
+export class Key {
+  constructor(row, column, color) {
+    this.row = row;
+    this.column = column;
+    this.color = color;
+  }
+}
+
 export class Wall {
   constructor(row, column) {
     this.row = row;
@@ -50,9 +58,10 @@ export class Puzzle {
     }
   }
 
-  initialize(walls, doors) {
+  initialize(walls, doors, keys) {
     this.walls = walls;
     this.doors = doors;
+    this.keys = keys;
   }
 
   /*
@@ -86,8 +95,13 @@ export class Model {
       allDoors.push(new Door(parseInt(d.row), parseInt(d.column), d.color));
     }
 
+    var allKeys = [];
+    for (let k of level.keys) {
+      allKeys.push(new Key(parseInt(k.row), parseInt(k.column), k.color));
+    }
+
     this.puzzle = new Puzzle(nr, nc, level);
-    this.puzzle.initialize(allWalls, allDoors);
+    this.puzzle.initialize(allWalls, allDoors, allKeys);
     this.ninjase = new NinjaSe(row, column);
     this.numMoves = 0;
     this.victory = false;

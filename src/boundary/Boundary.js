@@ -22,6 +22,13 @@ export function computeSquare(cell) {
   );
 }
 
+export function drawNinjaSe(ctx, ninjase, showlabels) {
+  ctx.shadowColor = "black";
+  let sq = computeSquare(ninjase);
+  ctx.fillStyle = "#ff00ff";
+  ctx.fillRect(sq.x, sq.y, sq.size, sq.size);
+}
+
 export function drawWalls(ctx, puzzle, showlabels) {
   ctx.shadowColor = "black";
 
@@ -35,16 +42,6 @@ export function drawDoors(ctx, puzzle, showlabels) {
   ctx.shadowColor = "black";
 
   puzzle.doors.forEach((door) => {
-    let color = door.getColor();
-    if (color === "red") {
-      ctx.fillStyle = "#ff0000";
-    } else if (color === "blue") {
-      ctx.fillStyle = "#0000ff";
-    } else if (color === "green") {
-      ctx.fillStyle = "#00ff00";
-    } else {
-      ctx.fillStyle = "#ffff00";
-    }
     //ctx.fillRect(sq.x, sq.y, sq.size, sq.size);
     let bigSquare = new Square(
       BOXSIZE * door.column + OFFSET,
@@ -67,7 +64,16 @@ export function drawDoors(ctx, puzzle, showlabels) {
 
     ctx.fillStyle = "black";
     ctx.fillRect(bigSquare.x, bigSquare.y, bigSquare.size, bigSquare.size);
-    ctx.fillStyle = door.color;
+    let color = door.getColor();
+    if (color === "red") {
+      ctx.fillStyle = "#ff0000";
+    } else if (color === "blue") {
+      ctx.fillStyle = "#0000ff";
+    } else if (color === "green") {
+      ctx.fillStyle = "#00ff00";
+    } else {
+      ctx.fillStyle = "#ffff00";
+    }
     ctx.fillRect(
       littleSquare.x,
       littleSquare.y,
@@ -75,6 +81,30 @@ export function drawDoors(ctx, puzzle, showlabels) {
       littleSquare.size
     );
     ctx.fillStyle = "white";
+    ctx.fillRect(tinySquare.x, tinySquare.y, tinySquare.size, tinySquare.size);
+  });
+}
+
+export function drawKeys(ctx, puzzle, showlabels) {
+  ctx.shadowColor = "black";
+
+  puzzle.keys.forEach((key) => {
+    let color = key.color;
+    if (color === "red") {
+      ctx.fillStyle = "#ff0000";
+    } else if (color === "blue") {
+      ctx.fillStyle = "#0000ff";
+    } else if (color === "green") {
+      ctx.fillStyle = "#00ff00";
+    } else {
+      ctx.fillStyle = "#ffff00";
+    }
+    let tinySquare = new Square(
+      BOXSIZE * key.column + 40,
+      BOXSIZE * key.row + 40,
+      BOXSIZE - 2 * 40,
+      BOXSIZE - 2 * 40
+    );
     ctx.fillRect(tinySquare.x, tinySquare.y, tinySquare.size, tinySquare.size);
   });
 }
@@ -107,5 +137,7 @@ export function redrawCanvas(model, canvasObj) {
   if (model.puzzle) {
     drawWalls(ctx, model.puzzle, model.showlabels);
     drawDoors(ctx, model.puzzle, model.showlabels);
+    drawKeys(ctx, model.puzzle, model.showlabels);
+    drawNinjaSe(ctx, model.ninjase, model.showlabels);
   }
 }

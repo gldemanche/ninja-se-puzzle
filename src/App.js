@@ -35,6 +35,7 @@ const resetbutton = {
   position: "absolute",
   left: 420,
   top: 375,
+  fontFamily: "brushscriptmt",
   backgroundColor: "#000000",
   color: "white",
 };
@@ -46,8 +47,30 @@ const pickupbutton = {
   width: 180,
 };
 
+const level1button = {
+  position: "absolute",
+  top: 70,
+  left: 50,
+  width: 120,
+};
+
+const level2button = {
+  position: "absolute",
+  top: 70,
+  left: 250,
+  width: 120,
+};
+
+const level3button = {
+  position: "absolute",
+
+  top: 70,
+  left: 450,
+  width: 120,
+};
+
 function App() {
-  const [model, setModel] = React.useState(new Model(level1));
+  const [model, setModel] = React.useState(new Model(level3));
   const [redraw, forceRedraw] = React.useState(0); // used to conveniently request redraw after model change
   const canvasRef = React.useRef(null); // need to be able to refer to Canvas
 
@@ -73,6 +96,9 @@ function App() {
       <button style={rightbutton}>RIGTH</button>
       <button style={resetbutton}>RESET</button>
       <button style={pickupbutton}>PICK UP KEY</button>
+      <button style={level1button}>LEVEL 1</button>
+      <button style={level2button}>LEVEL 2</button>
+      <button style={level3button}>LEVEL 3</button>
     </main>
   );
 }
