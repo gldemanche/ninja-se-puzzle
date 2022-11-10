@@ -5,6 +5,8 @@ import { level3 } from "./model/Levels.js";
 import { redrawCanvas } from "./boundary/Boundary.js";
 import { Model } from "./model/Model.js";
 import { layout } from "./Layout.js";
+import { MoveType } from "./model/Model.js";
+import { movePiece } from "./controller/Controller.js";
 // you might try this quick and dirty way to position buttons where you want (and other elements)
 const upbutton = {
   position: "absolute",
@@ -64,7 +66,7 @@ const level2button = {
 const level3button = {
   position: "absolute",
 
-  top: 70, 
+  top: 70,
   left: 450,
   width: 120,
 };
@@ -79,10 +81,11 @@ function App() {
     redrawCanvas(model, canvasRef.current);
   }, [model, redraw]); // arguments that determine when to refresh
 
-  const handleClick = (e) => {
-    let newModel = ();
+  const moveNinjaHandler = (direction) => {
+    let newModel = movePiece(model, direction);
+
     setModel(newModel);
-  }
+  };
   return (
     <main style={layout.Appmain}>
       <canvas
@@ -91,14 +94,37 @@ function App() {
         ref={canvasRef}
         width={layout.canvas.width}
         height={layout.canvas.height}
-        onClick={handleClick}
       />
 
       <label style={layout.text}>{"number moves: " + model.numMoves}</label>
-      <button style={upbutton}>UP </button>
-      <button style={leftbutton}>LEFT</button>
-      <button style={downbutton}>DOWN</button>
-      <button style={rightbutton}>RIGTH</button>
+      <button
+        style={upbutton}
+        onClick={(e) => moveNinjaHandler(Up)}
+        disable={!model.aviable(Up)}
+      >
+        UP{" "}
+      </button>
+      <button
+        style={leftbutton}
+        onClick={(e) => moveNinjaHandler(Left)}
+        disable={!model.aviable(Left)}
+      >
+        LEFT
+      </button>
+      <button
+        style={downbutton}
+        onClick={(e) => moveNinjaHandler(Down)}
+        disable={!model.aviable(Down)}
+      >
+        DOWN
+      </button>
+      <button
+        style={rightbutton}
+        onClick={(e) => moveNinjaHandler(Right)}
+        disable={!model.aviable(Right)}
+      >
+        RIGTH
+      </button>
       <button style={resetbutton}>RESET</button>
       <button style={pickupbutton}>PICK UP KEY</button>
       <button style={level1button}>LEVEL 1</button>
