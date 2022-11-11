@@ -27,6 +27,25 @@ export function drawNinjaSe(ctx, ninjase, showlabels) {
   let sq = computeSquare(ninjase);
   ctx.fillStyle = "#ff00ff";
   ctx.fillRect(sq.x, sq.y, sq.size, sq.size);
+  if (ninjase.key !== null) {
+    let color = ninjase.key.color;
+    if (color === "red") {
+      ctx.fillStyle = "#ff0000";
+    } else if (color === "blue") {
+      ctx.fillStyle = "#0000ff";
+    } else if (color === "green") {
+      ctx.fillStyle = "#00ff00";
+    } else {
+      ctx.fillStyle = "#ffff00";
+    }
+    let tinySquare = new Square(
+      BOXSIZE * ninjase.column + 40,
+      BOXSIZE * ninjase.row + 40,
+      BOXSIZE - 2 * 40,
+      BOXSIZE - 2 * 40
+    );
+    ctx.fillRect(tinySquare.x, tinySquare.y, tinySquare.size, tinySquare.size);
+  }
 }
 
 export function drawWalls(ctx, puzzle, showlabels) {

@@ -5,8 +5,8 @@ import { level3 } from "./model/Levels.js";
 import { redrawCanvas } from "./boundary/Boundary.js";
 import { Model } from "./model/Model.js";
 import { layout } from "./Layout.js";
-import { MoveType } from "./model/Model.js";
-import { movePiece } from "./controller/Controller.js";
+import { Up, Down, Left, Right } from "./model/Model.js";
+import { moveNinja, pickUpKey } from "./controller/Controller.js";
 // you might try this quick and dirty way to position buttons where you want (and other elements)
 const upbutton = {
   position: "absolute",
@@ -72,20 +72,24 @@ const level3button = {
 };
 
 function App() {
-  const [model, setModel] = React.useState(new Model(level1));
+  const [model, setModel] = React.useState(new Model(level3));
   const [redraw, forceRedraw] = React.useState(0); // used to conveniently request redraw after model change
   const canvasRef = React.useRef(null); // need to be able to refer to Canvas
-
+  const appRef = React.useRef(null);
   /** Ensures initial rendering is performed, and that whenever model changes, it is re-rendered. */
   React.useEffect(() => {
-    redrawCanvas(model, canvasRef.current);
+    redrawCanvas(model, canvasRef.current, appRef.current);
   }, [model, redraw]); // arguments that determine when to refresh
 
   const moveNinjaHandler = (direction) => {
-    let newModel = movePiece(model, direction);
-
-    setModel(newModel);
+    moveNinja(model, direction);
+    forceRedraw(redraw + 1);
   };
+  const pickUpKayHandler = (e) => {
+    pickUpKey(model);
+    forceRedraw(redraw + 1);
+  };
+
   return (
     <main style={layout.Appmain}>
       <canvas
@@ -100,33 +104,39 @@ function App() {
       <button
         style={upbutton}
         onClick={(e) => moveNinjaHandler(Up)}
-        disable={!model.aviable(Up)}
+        disabled={!model.available(Up)}
       >
         UP{" "}
       </button>
       <button
         style={leftbutton}
         onClick={(e) => moveNinjaHandler(Left)}
-        disable={!model.aviable(Left)}
+        disabled={!model.available(Left)}
       >
         LEFT
       </button>
       <button
         style={downbutton}
         onClick={(e) => moveNinjaHandler(Down)}
-        disable={!model.aviable(Down)}
+        disabled={!model.available(Down)}
       >
         DOWN
       </button>
       <button
         style={rightbutton}
         onClick={(e) => moveNinjaHandler(Right)}
-        disable={!model.aviable(Right)}
+        disabled={!model.available(Right)}
       >
         RIGTH
       </button>
       <button style={resetbutton}>RESET</button>
-      <button style={pickupbutton}>PICK UP KEY</button>
+      <button
+        style={pickupbutton}
+        onClick={(e) => pickUpKayHandler()}
+        disabled={!model.availableKey()}
+      >
+        PICK UP KEY
+      </button>
       <button style={level1button}>LEVEL 1</button>
       <button style={level2button}>LEVEL 2</button>
       <button style={level3button}>LEVEL 3</button>

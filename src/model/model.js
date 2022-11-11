@@ -69,6 +69,16 @@ export class NinjaSe {
   initialize(row, column) {
     this.row = row;
     this.column = column;
+    this.key = null;
+  }
+
+  pickKey(key) {
+    this.key = key;
+  }
+
+  move(direction) {
+    this.row += direction.deltar;
+    this.column += direction.deltac;
   }
 }
 
@@ -93,6 +103,20 @@ export class Puzzle {
     this.keys = keys;
   }
 
+  removeKey(key) {
+    const index = this.keys.indexOf(key);
+    if (index > -1) {
+      this.keys.splice(index, 1);
+    }
+  }
+
+  replaceKey(key, newKey) {
+    const index = this.keys.indexOf(key);
+    if (index > -1) {
+      this.keys.splice(index, 1, newKey);
+    }
+  }
+
   /*
   *blocks() {
     for (let i = 0; i < this.walls.length; i++) {
@@ -105,11 +129,10 @@ export class Puzzle {
 export class Model {
   constructor(level) {
     this.initialize(level);
+    this.level = level;
   }
 
   initialize(level) {
-    this.level = level;
-
     let nr = level.rows;
     let nc = level.columns;
     let row = level.ninjase.row;
@@ -135,5 +158,123 @@ export class Model {
     this.numMoves = 0;
     this.victory = false;
     this.showLabels = false;
+  }
+
+  updateMoveCounter(delta) {
+    this.numMoves += delta;
+  }
+
+  numbermoves() {
+    return this.numMoves;
+  }
+
+  availableMoves() {
+    let moves = [];
+    let curRow = this.ninjase.row;
+    let curColumn = this.ninjase.column;
+
+    let availableToMove = false;
+    if (curColumn > 0) {
+      availableToMove = true;
+      this.puzzle.walls.forEach((wall) => {
+        let r = wall.row;
+        let c = wall.column;
+        if (r === curRow && c === curColumn - 1) {
+          availableToMove = false;
+        }
+      });
+    }
+    if (availableToMove) {
+      moves.push(Left);
+    }
+
+    availableToMove = false;
+    if (curColumn < this.puzzle.nc - 1) {
+      availableToMove = true;
+      this.puzzle.walls.forEach((wall) => {
+        let r = wall.row;
+        let c = wall.column;
+        if (r === curRow && c === curColumn + 1) {
+          availableToMove = false;
+        }
+      });
+    }
+    if (availableToMove) {
+      moves.push(Right);
+    }
+
+    availableToMove = false;
+    if (curRow > 0) {
+      availableToMove = true;
+      this.puzzle.walls.forEach((wall) => {
+        let r = wall.row;
+        let c = wall.column;
+        if (r === curRow - 1 && c === curColumn) {
+          availableToMove = false;
+        }
+      });
+    }
+    if (availableToMove) {
+      moves.push(Up);
+    }
+
+    availableToMove = false;
+    if (curRow < this.puzzle.nr - 1) {
+      availableToMove = true;
+      this.puzzle.walls.forEach((wall) => {
+        let r = wall.row;
+        let c = wall.column;
+        if (r === curRow + 1 && c === curColumn) {
+          availableToMove = false;
+        }
+      });
+    }
+    if (availableToMove) {
+      moves.push(Down);
+    }
+
+    return moves;
+  }
+
+  available(direction) {
+    if (direction === NoMove) {
+      return false;
+    }
+    let allMoves = this.availableMoves();
+    return allMoves.includes(direction);
+  }
+
+  ninjaPickKey() {
+    let index = null;
+    this.puzzle.keys.forEach((key) => {
+      let r = key.row;
+      let c = key.column;
+
+      if (c === this.ninjase.column && r === this.ninjase.row) {
+        if (this.ninjase.key !== null) {
+          let tempColor = this.ninjase.key.color;
+          let tempKey = new Key(r, c, tempColor);
+          this.ninjase.pickKey(key);
+          this.puzzle.replaceKey(key, tempKey);
+          //console.log(key, this.ninjase.key, tempKey);
+        } else {
+          this.ninjase.pickKey(key);
+          this.puzzle.removeKey(key);
+        }
+      }
+    });
+  }
+
+  availableKey() {
+    let availableKey = false;
+    this.puzzle.keys.forEach((key) => {
+      let r = key.row;
+      let c = key.column;
+
+      if (c === this.ninjase.column && r === this.ninjase.row) {
+        availableKey = true;
+      }
+    });
+    return availableKey;
   }
 }
