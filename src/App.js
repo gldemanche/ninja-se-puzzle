@@ -6,7 +6,7 @@ import { redrawCanvas } from "./boundary/Boundary.js";
 import { Model } from "./model/Model.js";
 import { layout } from "./Layout.js";
 import { Up, Down, Left, Right } from "./model/Model.js";
-import { moveNinja, pickUpKey } from "./controller/Controller.js";
+import { moveNinja, pickUpKey, selectLevel } from "./controller/Controller.js";
 // you might try this quick and dirty way to position buttons where you want (and other elements)
 const upbutton = {
   position: "absolute",
@@ -72,7 +72,7 @@ const level3button = {
 };
 
 function App() {
-  const [model, setModel] = React.useState(new Model(level3));
+  const [model, setModel] = React.useState(new Model(level1));
   const [redraw, forceRedraw] = React.useState(0); // used to conveniently request redraw after model change
   const canvasRef = React.useRef(null); // need to be able to refer to Canvas
   const appRef = React.useRef(null);
@@ -87,6 +87,10 @@ function App() {
   };
   const pickUpKayHandler = (e) => {
     pickUpKey(model);
+    forceRedraw(redraw + 1);
+  };
+  const levelHandler = (level) => {
+    selectLevel(model, level);
     forceRedraw(redraw + 1);
   };
 
@@ -129,7 +133,9 @@ function App() {
       >
         RIGTH
       </button>
-      <button style={resetbutton}>RESET</button>
+      <button style={resetbutton} onClick={(e) => levelHandler(model.level)}>
+        RESET
+      </button>
       <button
         style={pickupbutton}
         onClick={(e) => pickUpKayHandler()}
@@ -137,9 +143,15 @@ function App() {
       >
         PICK UP KEY
       </button>
-      <button style={level1button}>LEVEL 1</button>
-      <button style={level2button}>LEVEL 2</button>
-      <button style={level3button}>LEVEL 3</button>
+      <button style={level1button} onClick={(e) => levelHandler(level1)}>
+        LEVEL 1
+      </button>
+      <button style={level2button} onClick={(e) => levelHandler(level2)}>
+        LEVEL 2
+      </button>
+      <button style={level3button} onClick={(e) => levelHandler(level3)}>
+        LEVEL 3
+      </button>
     </main>
   );
 }

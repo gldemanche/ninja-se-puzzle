@@ -133,6 +133,7 @@ export class Model {
   }
 
   initialize(level) {
+    this.level = level;
     let nr = level.rows;
     let nc = level.columns;
     let row = level.ninjase.row;
