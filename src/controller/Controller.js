@@ -5,7 +5,7 @@ export function moveNinja(model, direction) {
 
   ninja.move(direction);
   model.updateMoveCounter(+1);
-
+  model.checkDoors();
   return model;
 }
 

@@ -19,4 +19,14 @@ export const layout = {
     backgroundColor: "#52B2BF",
     width: 150,
   },
+
+  congrats: {
+    position: "absolute",
+    left: 500,
+    top: 500,
+    fontFamily: "helvetica",
+    fontSize: 30,
+    color: "white",
+    backgroundColor: "#52B2BF",
+  },
 };

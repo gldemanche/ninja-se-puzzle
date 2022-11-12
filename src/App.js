@@ -105,6 +105,7 @@ function App() {
       />
 
       <label style={layout.text}>{"number moves: " + model.numMoves}</label>
+      <label style={layout.congrats}>{model.winMessage()}</label>
       <button
         style={upbutton}
         onClick={(e) => moveNinjaHandler(Up)}
@@ -131,7 +132,7 @@ function App() {
         onClick={(e) => moveNinjaHandler(Right)}
         disabled={!model.available(Right)}
       >
-        RIGTH
+        RIGHT
       </button>
       <button style={resetbutton} onClick={(e) => levelHandler(model.level)}>
         RESET

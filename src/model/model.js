@@ -1,3 +1,4 @@
+import { level1, level2, level3 } from "./Levels";
 export class MoveType {
   constructor(dr, dc) {
     this.deltar = dr;
@@ -117,6 +118,13 @@ export class Puzzle {
     }
   }
 
+  removeDoor(door) {
+    const index = this.doors.indexOf(door);
+    if (index > -1) {
+      this.doors.splice(index, 1);
+    }
+  }
+
   /*
   *blocks() {
     for (let i = 0; i < this.walls.length; i++) {
@@ -233,7 +241,104 @@ export class Model {
     if (availableToMove) {
       moves.push(Down);
     }
+    return moves;
+  }
 
+  removeMoves(moves) {
+    let curRow = this.ninjase.row;
+    let curColumn = this.ninjase.column;
+
+    let availableToMove = false;
+    if (curRow < this.puzzle.nr - 1) {
+      availableToMove = true;
+      this.puzzle.doors.forEach((door) => {
+        let r = door.row;
+        let c = door.column;
+        let dc = door.getColor();
+        if (r === curRow + 1 && c === curColumn) {
+          if (this.ninjase.key === null) {
+            availableToMove = false;
+          } else if (this.ninjase.key.color !== dc) {
+            availableToMove = false;
+          }
+        }
+      });
+    }
+    if (!availableToMove) {
+      const index = moves.indexOf(Down);
+      if (index > -1) {
+        moves.splice(index, 1);
+      }
+    }
+    //up
+    availableToMove = false;
+    if (curRow > 0) {
+      availableToMove = true;
+      this.puzzle.doors.forEach((door) => {
+        let r = door.row;
+        let c = door.column;
+        let dc = door.getColor();
+        if (r === curRow - 1 && c === curColumn) {
+          if (this.ninjase.key === null) {
+            availableToMove = false;
+          } else if (this.ninjase.key.color !== dc) {
+            availableToMove = false;
+          }
+        }
+      });
+    }
+    if (!availableToMove) {
+      const index = moves.indexOf(Up);
+      if (index > -1) {
+        moves.splice(index, 1);
+      }
+    }
+    //right
+    availableToMove = false;
+    if (curColumn < this.puzzle.nc - 1) {
+      availableToMove = true;
+      this.puzzle.doors.forEach((door) => {
+        let r = door.row;
+        let c = door.column;
+        let dc = door.getColor();
+        if (r === curRow && c === curColumn + 1) {
+          if (this.ninjase.key === null) {
+            availableToMove = false;
+          } else if (this.ninjase.key.color !== dc) {
+            availableToMove = false;
+          }
+        }
+      });
+    }
+    if (!availableToMove) {
+      const index = moves.indexOf(Right);
+      if (index > -1) {
+        moves.splice(index, 1);
+      }
+    }
+    //left
+    availableToMove = false;
+    if (curColumn > 0) {
+      availableToMove = true;
+      this.puzzle.doors.forEach((door) => {
+        let r = door.row;
+        let c = door.column;
+        let dc = door.getColor();
+        if (r === curRow && c === curColumn - 1) {
+          if (this.ninjase.key === null) {
+            availableToMove = false;
+          } else if (this.ninjase.key.color !== dc) {
+            availableToMove = false;
+          }
+        }
+      });
+    }
+    if (!availableToMove) {
+      const index = moves.indexOf(Left);
+      if (index > -1) {
+        moves.splice(index, 1);
+      }
+    }
     return moves;
   }
 
@@ -242,7 +347,8 @@ export class Model {
       return false;
     }
     let allMoves = this.availableMoves();
-    return allMoves.includes(direction);
+    let doorMoves = this.removeMoves(allMoves);
+    return doorMoves.includes(direction);
   }
 
   ninjaPickKey() {
@@ -277,5 +383,36 @@ export class Model {
       }
     });
     return availableKey;
+  }
+
+  checkDoors() {
+    let curRow = this.ninjase.row;
+    let curColumn = this.ninjase.column;
+    this.puzzle.doors.forEach((door) => {
+      let r = door.row;
+      let c = door.column;
+      if (r === curRow && c === curColumn) {
+        this.puzzle.removeDoor(door);
+        this.ninjase.key = null;
+      }
+    });
+  }
+
+  allDoorsGone() {
+    return this.puzzle.doors.length === 0;
+  }
+
+  winMessage() {
+    let levelString = "Level";
+    if (this.allDoorsGone()) {
+      if (this.level === level1) {
+        levelString = "1";
+      } else if (this.level === level2) {
+        levelString = "2";
+      } else if (this.level === level3) {
+        levelString = "3";
+      }
+      return "You beat level " + levelString + "!";
+    }
   }
 }
